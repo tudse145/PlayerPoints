@@ -1,6 +1,6 @@
 package org.black_ixx.playerpoints.services.version;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Represents a semantic version.

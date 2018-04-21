@@ -6,7 +6,6 @@ import java.sql.SQLException;
 
 import org.black_ixx.playerpoints.PlayerPoints;
 import org.black_ixx.playerpoints.config.RootConfig;
-import org.slf4j.event.Level;
 
 /**
  * Represents a database type of storage.

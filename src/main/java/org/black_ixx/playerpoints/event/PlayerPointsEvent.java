@@ -4,7 +4,6 @@ import java.util.UUID;
 
 import org.spongepowered.api.event.Cancellable;
 import org.spongepowered.api.event.cause.Cause;
-import org.spongepowered.api.event.cause.EventContextKeys;
 import org.spongepowered.api.event.impl.AbstractEvent;
 
 public class PlayerPointsEvent extends AbstractEvent implements Cancellable {

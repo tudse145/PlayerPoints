@@ -1,11 +1,13 @@
 package org.black_ixx.playerpoints;
 
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 import javax.inject.Inject;
@@ -25,11 +27,13 @@ import org.slf4j.Logger;
 import org.slf4j.event.Level;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.entity.living.player.User;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.game.state.GamePreInitializationEvent;
 import org.spongepowered.api.event.game.state.GameStoppingEvent;
 import org.spongepowered.api.plugin.Plugin;
 import org.spongepowered.api.plugin.PluginManager;
+import org.spongepowered.api.service.user.UserStorageService;
 
 import com.evilmidget38.UUIDFetcher;
 
@@ -59,6 +63,8 @@ public class PlayerPoints  {
      * Modules.
      */
     private final Map<Class<? extends IModule>, IModule> modules = new HashMap<Class<? extends IModule>, IModule>();
+
+	private Path configFolder;
 
     @Listener
     public void onEnable(GamePreInitializationEvent event) {
@@ -265,15 +271,23 @@ public class PlayerPoints  {
 			}
         } else if(id == null && !Sponge.getServer().getOnlineMode()) {
             //There's nothing we can do but attempt to get the UUID from old method.
-            id = Sponge.getServer().getOfflinePlayer(name).getUniqueId();
-            if(config.debugUUID) {
-                getLogger().info("translateNameToUUID() offline player UUID found: " + ((id == null) ? id : id.toString()));
-            }
+            Optional<UserStorageService> userStorage = Sponge.getServiceManager().provide(UserStorageService.class);
+            Optional<User> optional = userStorage.get().get(name);
+            if (optional.isPresent()) {
+    			id = optional.get().getUniqueId();
+                if(config.debugUUID) {
+                    getLogger().info("translateNameToUUID() offline player UUID found: " + ((id == null) ? id : id.toString()));
+                }
+			}
         }
         return id;
     }
 
 	public Logger getLogger() {
 		return logger;
+	}
+
+	public Path getConfigFolder() {
+		return configFolder;
 	}
 }

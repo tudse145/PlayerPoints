@@ -1,12 +1,14 @@
 package org.black_ixx.playerpoints.storage.imports;
 
-import java.io.File;
+import java.io.IOException;
+import java.util.Map.Entry;
 
 import org.black_ixx.playerpoints.PlayerPoints;
 import org.black_ixx.playerpoints.storage.IStorage;
 import org.black_ixx.playerpoints.storage.StorageType;
-import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.file.YamlConfiguration;
+
+import ninja.leaping.configurate.ConfigurationNode;
+import ninja.leaping.configurate.hocon.HoconConfigurationLoader;
 
 /**
  * Import from YAML to MySQL.
@@ -30,14 +32,17 @@ public class YAMLImport extends DatabaseImport {
         plugin.getLogger().info("Importing YAML to MySQL");
         IStorage mysql = generator
                 .createStorageHandlerForType(StorageType.MYSQL);
-        final ConfigurationSection config = YamlConfiguration
-                .loadConfiguration(new File(plugin.getDataFolder()
-                        .getAbsolutePath() + "/storage.yml"));
-        final ConfigurationSection points = config
-                .getConfigurationSection("Points");
-        for(String key : points.getKeys(false)) {
-            mysql.setPoints(key, points.getInt(key));
-        }
+		try {
+			ConfigurationNode config = HoconConfigurationLoader.builder().setPath(plugin.getConfigFolder().resolve("storage.cfg")).build().load();
+	        final ConfigurationNode points = config
+	                .getNode("Points");
+	        for(Entry<Object, ? extends ConfigurationNode> key : points.getChildrenMap().entrySet()) {
+	            mysql.setPoints(key.getKey().toString(), key.getValue().getInt());
+	        }
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
     }
 
 }

@@ -36,12 +36,12 @@ public class OneFiveUpdate extends UpdateModule {
             success = storage.renameTo(new File(plugin.getDataFolder()
                     + File.separator + "storage.yml"));
         } catch(SecurityException sec) {
-            plugin.getLogger().severe(
+            plugin.getLogger().error(
                     "SecurityExcpetion on renaming config.yml to storage.yml");
             sec.printStackTrace();
         } catch(NullPointerException npe) {
             plugin.getLogger()
-                    .severe("NullPointerException on renaming config.yml to storage.yml");
+                    .error("NullPointerException on renaming config.yml to storage.yml");
             npe.printStackTrace();
         }
         if(success) {
@@ -62,7 +62,7 @@ public class OneFiveUpdate extends UpdateModule {
             config.set("debug.database", false);
             plugin.saveConfig();
         } else {
-            plugin.getLogger().severe(
+            plugin.getLogger().error(
                     "Failed to rename file config.yml to storage.yml");
         }
     }
