@@ -39,7 +39,7 @@ import com.evilmidget38.UUIDFetcher;
 @Plugin(id = "PlayerPoints")
 public class PlayerPoints  {
 	
-	private Logger logger;
+	private final Logger logger;
 
 	@Inject
 	public PlayerPoints(Logger logger) {
@@ -136,7 +136,7 @@ public class PlayerPoints  {
         } else if(module == null) {
             throw new IllegalArgumentException("Module cannot be null");
         } else if(modules.containsKey(clazz)) {
-            logger.warn(
+            getLogger().warn(
                     "Overwriting module for class: " + clazz.getName());
         }
         // Add module.
@@ -218,26 +218,26 @@ public class PlayerPoints  {
         UUID id = null;
         RootConfig config = getModuleForClass(RootConfig.class);
         if(config.debugUUID) {
-        	logger.info("translateNameToUUID(" + name + ")");
+        	getLogger().info("translateNameToUUID(" + name + ")");
         }
 
         if(name == null) {
         	if(config.debugUUID) {
-            	logger.info("translateNameToUUID() - bad ID");
+            	getLogger().info("translateNameToUUID() - bad ID");
             }
         	return id;
         }
 
         // Look through online players first
         if(config.debugUUID) {
-        	logger.info("translateNameToUUID() - Looking through online players: " + Sponge.getServer().getOnlinePlayers().size());
+        	getLogger().info("translateNameToUUID() - Looking through online players: " + Sponge.getServer().getOnlinePlayers().size());
         }
         Collection<? extends Player> players = Sponge.getServer().getOnlinePlayers();
         for(Player p : players) {
             if(p.getName().equalsIgnoreCase(name)) {
                 id = p.getUniqueId();
                 if(config.debugUUID) {
-                	logger.info("translateNameToUUID() online player UUID found: " + id.toString());
+                	getLogger().info("translateNameToUUID() online player UUID found: " + id.toString());
                 }
                 break;
             }
@@ -246,7 +246,7 @@ public class PlayerPoints  {
         // Last resort, attempt bukkit api lookup
         if(id == null && Sponge.getServer().getOnlineMode()) {
         	if(config.debugUUID) {
-            	logger.info("translateNameToUUID() - Attempting online lookup");
+            	getLogger().info("translateNameToUUID() - Attempting online lookup");
             }
         	UUIDFetcher fetcher = new UUIDFetcher(Arrays.asList(name));
         	try {
@@ -255,21 +255,25 @@ public class PlayerPoints  {
 					if(name.equalsIgnoreCase(entry.getKey())) {
 						id = entry.getValue();
 						if(config.debugUUID) {
-							logger.info("translateNameToUUID() web player UUID found: " + ((id == null) ? id : id.toString()));
+							getLogger().info("translateNameToUUID() web player UUID found: " + ((id == null) ? id : id.toString()));
 						}
 						break;
 					}
 				}
 			} catch (Exception e) {
-				logger.error("Exception on online UUID fetch", e);
+				getLogger().error("Exception on online UUID fetch", e);
 			}
         } else if(id == null && !Sponge.getServer().getOnlineMode()) {
             //There's nothing we can do but attempt to get the UUID from old method.
             id = Sponge.getServer().getOfflinePlayer(name).getUniqueId();
             if(config.debugUUID) {
-                logger.info("translateNameToUUID() offline player UUID found: " + ((id == null) ? id : id.toString()));
+                getLogger().info("translateNameToUUID() offline player UUID found: " + ((id == null) ? id : id.toString()));
             }
         }
         return id;
     }
+
+	public Logger getLogger() {
+		return logger;
+	}
 }

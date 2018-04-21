@@ -8,16 +8,14 @@ import java.util.Map;
 
 import org.black_ixx.playerpoints.PlayerPoints;
 import org.black_ixx.playerpoints.models.Flag;
-import org.bukkit.ChatColor;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
+import org.spongepowered.api.command.CommandCallable;
+import org.spongepowered.api.command.CommandSource;
 
 /**
  * Abstract class to handle the majority of the logic dealing with commands.
  * Allows for a nested structure of commands.
  */
-public abstract class CommandHandler implements CommandExecutor {
+public abstract class CommandHandler implements CommandCallable {
     /**
      * Registered commands for this handler.
      */
@@ -58,7 +56,7 @@ public abstract class CommandHandler implements CommandExecutor {
      */
     public void registerCommand(String label, PointsCommand command) {
         if(registeredCommands.containsKey(label)) {
-            plugin.getLogger().warning(
+            plugin.getLogger().warn(
                     "Replacing existing command for: " + label);
         }
         registeredCommands.put(label, command);
@@ -84,7 +82,7 @@ public abstract class CommandHandler implements CommandExecutor {
      */
     public void registerHandler(CommandHandler handler) {
         if(registeredHandlers.containsKey(handler.getCommand())) {
-            plugin.getLogger().warning(
+            plugin.getLogger().warn(
                     "Replacing existing handler for: " + handler.getCommand());
         }
         registeredHandlers.put(handler.getCommand(), handler);
@@ -149,7 +147,7 @@ public abstract class CommandHandler implements CommandExecutor {
      *            - Command label.
      * @return True if handled. Should not need to return false...
      */
-    public abstract boolean noArgs(CommandSender sender, Command command,
+    public abstract boolean noArgs(CommandSource sender,
             String label, EnumMap<Flag, String> info);
 
     /**
@@ -167,8 +165,8 @@ public abstract class CommandHandler implements CommandExecutor {
      *            - Arguments.
      * @return True if handled. Should not need to return false...
      */
-    public abstract boolean unknownCommand(CommandSender sender,
-            Command command, String label, String[] args,
+    public abstract boolean unknownCommand(CommandSource sender,
+            String label, String[] args,
             EnumMap<Flag, String> info);
 
     /**
