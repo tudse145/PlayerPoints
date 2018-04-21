@@ -2,15 +2,12 @@ package org.black_ixx.playerpoints.event;
 
 import java.util.UUID;
 
-import org.bukkit.event.Cancellable;
-import org.bukkit.event.Event;
-import org.bukkit.event.HandlerList;
+import org.spongepowered.api.event.Cancellable;
+import org.spongepowered.api.event.cause.Cause;
+import org.spongepowered.api.event.cause.EventContextKeys;
+import org.spongepowered.api.event.impl.AbstractEvent;
 
-public class PlayerPointsEvent extends Event implements Cancellable {
-    /**
-     * Handler list.
-     */
-    private static final HandlerList handlers = new HandlerList();
+public class PlayerPointsEvent extends AbstractEvent implements Cancellable {
     /**
      * Player whose points is changing.
      */
@@ -25,6 +22,7 @@ public class PlayerPointsEvent extends Event implements Cancellable {
      * Cancelled flag.
      */
     private boolean cancelled;
+	private Cause cause;
 
     /**
      * Constructor.
@@ -34,9 +32,10 @@ public class PlayerPointsEvent extends Event implements Cancellable {
      * @param change
      *            - Amount of change that will apply to their current balance.
      */
-    public PlayerPointsEvent(UUID id, int change) {
+    public PlayerPointsEvent(UUID id, int change, Cause cause) {
         this.playerId = id;
         this.change = change;
+		this.cause = cause;
     }
 
     /**
@@ -78,18 +77,9 @@ public class PlayerPointsEvent extends Event implements Cancellable {
         this.cancelled = cancelled;
     }
 
-    /**
-     * Static method to get HandlerList.
-     * 
-     * @return HandlerList.
-     */
-    public static HandlerList getHandlerList() {
-        return handlers;
-    }
-
-    @Override
-    public HandlerList getHandlers() {
-        return handlers;
-    }
+	@Override
+	public Cause getCause() {
+		return cause;
+	}
 
 }

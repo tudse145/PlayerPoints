@@ -3,10 +3,10 @@ package org.black_ixx.playerpoints.storage;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Level;
 
 import org.black_ixx.playerpoints.PlayerPoints;
 import org.black_ixx.playerpoints.config.RootConfig;
+import org.slf4j.event.Level;
 
 /**
  * Represents a database type of storage.
@@ -73,7 +73,7 @@ public abstract class DatabaseStorage implements IStorage {
             try {
                 result.close();
             } catch(SQLException e) {
-                plugin.getLogger().log(Level.SEVERE, "SQLException on cleanup",
+                plugin.getLogger().error("SQLException on cleanup",
                         e);
             }
         }
@@ -81,7 +81,7 @@ public abstract class DatabaseStorage implements IStorage {
             try {
                 statement.close();
             } catch(SQLException e) {
-                plugin.getLogger().log(Level.SEVERE, "SQLException on cleanup",
+                plugin.getLogger().error("SQLException on cleanup",
                         e);
             }
         }

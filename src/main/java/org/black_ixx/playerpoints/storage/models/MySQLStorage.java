@@ -7,8 +7,6 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.logging.Level;
 
-import lib.PatPeter.SQLibrary.MySQL;
-
 import org.black_ixx.playerpoints.PlayerPoints;
 import org.black_ixx.playerpoints.config.RootConfig;
 import org.black_ixx.playerpoints.storage.DatabaseStorage;
