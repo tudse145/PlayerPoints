@@ -3,10 +3,6 @@ package org.black_ixx.playerpoints.listeners;
 import org.black_ixx.playerpoints.PlayerPoints;
 import org.black_ixx.playerpoints.config.RootConfig;
 import org.black_ixx.playerpoints.event.PlayerPointsChangeEvent;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
 
 public class RestrictionListener implements Listener {
     
