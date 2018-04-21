@@ -2,14 +2,12 @@ package org.black_ixx.playerpoints.event;
 
 import java.util.UUID;
 
-import org.spongepowered.api.event.Event;
-import org.spongepowered.api.event.cause.Cause;
-import org.spongepowered.api.event.impl.AbstractEvent;
+import org.bukkit.event.HandlerList;
 
 /**
  * Called when a player's points is to be changed.
  */
-public class PlayerPointsChangeEvent extends AbstractEvent {
+public class PlayerPointsChangeEvent extends PlayerPointsEvent {
 
     /**
      * Handler list.
@@ -25,6 +23,7 @@ public class PlayerPointsChangeEvent extends AbstractEvent {
      *            - Amount of points to be changed.
      */
     public PlayerPointsChangeEvent(UUID id, int change) {
+        super(id, change);
     }
 
     /**
@@ -40,10 +39,6 @@ public class PlayerPointsChangeEvent extends AbstractEvent {
     public HandlerList getHandlers() {
         return handlers;
     }
-
-	@Override
-	public Cause getCause() {
-		// TODO Auto-generated method stub
-		return null;
+}
 	}
 }
