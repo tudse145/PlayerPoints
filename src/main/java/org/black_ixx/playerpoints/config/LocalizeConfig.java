@@ -8,9 +8,6 @@ import java.util.Map.Entry;
 
 import org.black_ixx.playerpoints.PlayerPoints;
 import org.black_ixx.playerpoints.models.Flag;
-import org.bukkit.ChatColor;
-import org.bukkit.configuration.InvalidConfigurationException;
-import org.bukkit.configuration.file.YamlConfiguration;
 
 /**
  * Handles user-based messages.
@@ -61,7 +58,7 @@ public class LocalizeConfig {
             // Save the file
             config.save(file);
         } catch(IOException e1) {
-            plugin.getLogger().warning(
+            plugin.getLogger().warn(
                     "File I/O Exception on saving localization config");
             e1.printStackTrace();
         }
