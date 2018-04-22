@@ -16,7 +16,6 @@ import org.black_ixx.playerpoints.commands.Commander;
 import org.black_ixx.playerpoints.config.LocalizeConfig;
 import org.black_ixx.playerpoints.config.RootConfig;
 import org.black_ixx.playerpoints.listeners.RestrictionListener;
-import org.black_ixx.playerpoints.listeners.VotifierListener;
 import org.black_ixx.playerpoints.services.ExecutorModule;
 import org.black_ixx.playerpoints.services.IModule;
 import org.black_ixx.playerpoints.storage.StorageHandler;
